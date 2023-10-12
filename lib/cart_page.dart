@@ -32,20 +32,31 @@ class _CartPageState extends State<CartPage> {
       ),
       body: Consumer<CartModel>(
         builder: (context, value, index) {
+          // Create a set to keep track of unique products in the cart
+          // final item = value.cartItems;
+          // final productKey = item[0];
+          // Set uniqueList = Set.from(item);
+          // List uniquelistOfArrays = uniqueList.toList();
+
           return Column(
             children: [
               Expanded(
                 child: ListView.builder(
+                  // itemCount: Set.from(value.cartItems).length,
                   itemCount: value.cartItems.length,
                   itemBuilder: (context, index) {
+                    // final item = value.cartItems[index];
+                    // final productKey = item[0];
+                    // Set<List<String>> setOfArrays = Set<List<String>>.fromitem.contains
+                    // Set<List<String>> setOfArrays =
+                    //     Set<List<String>>.from(value.cartItems);
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ZoomIn(
                         duration: Duration(milliseconds: 1500),
                         child: Container(
-                          color: Colors.amber,
                           child: Dismissible(
-                            key: Key(value.cartItems[index]
+                            key: Key((value.cartItems)[index]
                                 [0]), // Unique key for each item
                             background: Container(
                               color: Colors.red,
@@ -59,18 +70,102 @@ class _CartPageState extends State<CartPage> {
                               Provider.of<CartModel>(context, listen: false)
                                   .removeItemFromCart(index);
                             },
-                            child: ListTile(
-                                leading: Image.asset(value.cartItems[index][2]),
-                                title: Text(value.cartItems[index][0]),
-                                subtitle:
-                                    Text('Rs.' + value.cartItems[index][1]),
-                                trailing: IconButton(
-                                    icon: Icon(Icons.delete),
-                                    onPressed: () => {
-                                          Provider.of<CartModel>(context,
-                                                  listen: false)
-                                              .removeItemFromCart(index),
-                                        })),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.amber,
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: Row(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Image.asset(
+                                        value.cartItems[index][2],
+                                        height: 50,
+                                        width: 50,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Column(
+                                          children: [
+                                            Text(value.cartItems[index][0]),
+                                            Text('Rs.' +
+                                                value.cartItems[index][1] +
+                                                '/piece'),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text('Quantity: ' +
+                                            value.cartItems[index][4]
+                                                .toString()),
+                                        // Row(
+                                        //   mainAxisAlignment:
+                                        //       MainAxisAlignment.center,
+                                        //   children: [
+                                        //     IconButton(
+                                        //       icon: Icon(Icons
+                                        //           .remove_circle_outline_outlined),
+                                        //       onPressed: () => {
+                                        //         Provider.of<CartModel>(
+                                        //                 context,
+                                        //                 listen: false)
+                                        //             .removeItemFromCart(
+                                        //                 index),
+                                        //       },
+                                        //     ),
+                                        //     Container(
+                                        //       height:
+                                        //           20, // Adjust the height as needed
+                                        //       width:
+                                        //           1, // Width of the separator line
+                                        //       color: Colors
+                                        //           .black, // Color of the separator line
+                                        //     ),
+                                        //     IconButton(
+                                        //       icon: Icon(Icons
+                                        //           .add_circle_outline_rounded),
+                                        //       onPressed: () => {
+                                        //         Provider.of<CartModel>(
+                                        //                 context,
+                                        //                 listen: false)
+                                        //             .addItemToCart(index),
+                                        //       },
+                                        //     )
+                                        //   ],
+                                        // ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 10.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          IconButton(
+                                              icon: Icon(Icons.delete),
+                                              onPressed: () => {
+                                                    Provider.of<CartModel>(
+                                                            context,
+                                                            listen: false)
+                                                        .removeItemFromCart(
+                                                            index),
+                                                  }),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       ),

@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 
 class CartModel extends ChangeNotifier {
   final List _shopItems = [
-    ["Cabbage", "30", "assets/images/img_1.png", Colors.green],
-    ["Broccoli", "70", "assets/images/img_2.png", Colors.blueAccent],
-    ["Carrot", "50", 'assets/images/img_3.png', Colors.amber],
-    ["Pakcoy", "40", 'assets/images/img_4.png', Colors.amberAccent],
+    ["Cabbage", "30", "assets/images/img_1.png", Colors.green, 0],
+    ["Broccoli", "70", "assets/images/img_2.png", Colors.blueAccent, 0],
+    ["Carrot", "50", 'assets/images/img_3.png', Colors.amber, 0],
+    ["Pakcoy", "40", 'assets/images/img_4.png', Colors.amberAccent, 0],
   ];
   var count = 0;
 
   List _cartItems = [];
+  // Set<List<String>> setOfArrays = Set<List<String>>.from(_cartItems);
   get cartItems => _cartItems;
 
   get shopItems => _shopItems;
@@ -23,6 +24,7 @@ class CartModel extends ChangeNotifier {
   void removeItemFromCart(int index) {
     _cartItems.removeAt(index);
     count -= 1;
+    // _cartItems[index][4] -= 1;
     notifyListeners();
   }
 
@@ -33,4 +35,8 @@ class CartModel extends ChangeNotifier {
     }
     return totalPrice.toStringAsFixed(2);
   }
+
+  // void quantityCart(int index) {
+  //   _cartItems[index][4] += 1;
+  // }
 }

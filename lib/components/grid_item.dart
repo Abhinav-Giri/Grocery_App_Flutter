@@ -1,21 +1,24 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 class GroceryItemTile extends StatelessWidget {
   final String itemName;
   final String itemPrice;
   final String imagePath;
-  void Function()? onPressed;
+  final String quantity;
+  void Function()? onPressedAdd;
+  void Function()? onPressedRemove;
   final color;
 
-  GroceryItemTile({
-    Key? key,
-    required this.itemName,
-    required this.itemPrice,
-    required this.imagePath,
-    required this.color,
-    required this.onPressed,
-  }) : super(key: key);
+  GroceryItemTile(
+      {Key? key,
+      required this.itemName,
+      required this.itemPrice,
+      required this.imagePath,
+      required this.color,
+      required this.onPressedAdd,
+      required this.onPressedRemove,
+      required this.quantity})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,30 +58,60 @@ class GroceryItemTile extends StatelessWidget {
                                                     : 0,
                 // width: (screenSize.width) >= 690 ? 250 : 100,
               ),
-              SizedBox(
-                  height: (screenSize.width > 690)
-                      ? 2
-                      : (screenSize.width > 600)
-                          ? 22
-                          : (screenSize.width > 330 && screenSize.width > 291)
-                              ? 0
-                              : (screenSize.width > 290)
-                                  ? 20
-                                  : 30),
+              // SizedBox(
+              //     height: (screenSize.width > 690)
+              //         ? 2
+              //         : (screenSize.width > 600)
+              //             ? 22
+              //             : (screenSize.width > 330 && screenSize.width > 291)
+              //                 ? 0
+              //                 : (screenSize.width > 290)
+              //                     ? 20
+              //                     : 30),
               Text(
                 itemName,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
               ),
               SizedBox(height: 10),
-              MaterialButton(
-                  // minWidth: 10,
-                  onPressed: onPressed,
-                  color: color,
-                  child: Text(
-                    'Rs. ' + itemPrice,
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ))
+              Container(
+                padding:
+                    EdgeInsets.only(left: 16, right: 16, top: 5, bottom: 5),
+                decoration: BoxDecoration(
+                    color: color, borderRadius: BorderRadius.circular(12)),
+                //     onPressed: onPressedAdd,
+                // color: color,
+                child: Text(
+                  'Rs. ' + itemPrice,
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+              ),
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.remove_circle_outline_outlined),
+                        onPressed: onPressedRemove,
+                      ),
+                      Container(
+                        height: 20, // Adjust the height as needed
+                        width: 1, // Width of the separator line
+                        color: Colors.black, // Color of the separator line
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.add_circle_outline_rounded),
+                        onPressed: onPressedAdd,
+                      )
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Text('Quantity: ${quantity}'),
+                  ),
+                ],
+              ),
             ],
           )),
     );

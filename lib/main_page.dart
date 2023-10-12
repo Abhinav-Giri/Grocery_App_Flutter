@@ -93,20 +93,30 @@ class MainPage extends StatelessWidget {
                             ? 4
                             : (screenSize.width > 900)
                                 ? 3
-                                : 2,
+                                : (screenSize.width > 300)
+                                    ? 2
+                                    : 1,
                         childAspectRatio: 1 / 1,
                         crossAxisSpacing: 10),
                     itemBuilder: (context, index) {
                       return FadeInDown(
                         child: GroceryItemTile(
-                            itemName: value.shopItems[index][0],
-                            itemPrice: value.shopItems[index][1],
-                            imagePath: value.shopItems[index][2],
-                            color: value.shopItems[index][3],
-                            onPressed: () => {
-                                  Provider.of<CartModel>(context, listen: false)
-                                      .addItemToCart(index),
-                                }),
+                          itemName: value.shopItems[index][0],
+                          itemPrice: value.shopItems[index][1],
+                          imagePath: value.shopItems[index][2],
+                          color: value.shopItems[index][3],
+                          onPressedAdd: () => {
+                            Provider.of<CartModel>(context, listen: false)
+                                .addItemToCart(index),
+                            value.shopItems[index][4] += 1,
+                          },
+                          onPressedRemove: () => {
+                            Provider.of<CartModel>(context, listen: false)
+                                .removeItemFromCart(index),
+                            value.shopItems[index][4] -= 1,
+                          },
+                          quantity: value.shopItems[index][4].toString(),
+                        ),
                       );
                     },
                   );
