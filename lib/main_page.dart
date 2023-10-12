@@ -112,7 +112,7 @@ class MainPage extends StatelessWidget {
 
                           onPressedRemove: () =>
                               Provider.of<CartModel>(context, listen: false)
-                                  .deleteItemFromCart(index),
+                                  .deleteItemFromCart(index, context),
                           // value.shopItems[index][4] -= 1,
 
                           quantity: value.shopItems[index][4].toString(),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app/snackbar.dart';
 
 class CartModel extends ChangeNotifier {
   final List _shopItems = [
@@ -48,19 +49,27 @@ class CartModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteItemFromCart(int index) {
+  void deleteItemFromCart(int index, context) {
     if (count > 0) {
-      count -= 1;
-    }
-
-    for (int i = 0; i < _cartItems.length; i++) {
-      if (_cartItems[i][0] == _shopItems[index][0]) {
-        _cartItems[i][4] -= 1;
-        if (_cartItems[i][4] == 0) {
-          _cartItems.removeAt(i);
+      for (int i = 0; i < _cartItems.length; i++) {
+        if (_cartItems[i][0] == _shopItems[index][0]) {
+          _cartItems[i][4] -= 1;
+          count -= 1;
+          if (_cartItems[i][4] == 0) {
+            _cartItems.removeAt(i);
+            // showSnackBar(context, 'Please first select this item');
+          }
+          break;
         }
-        break;
+        showSnackBar(context, 'Please first select this item');
       }
+      // if(_cartItems.contains(_shopItems[index][0])){
+
+      // }
+    }
+    // else if(count > 0 && ){}
+    else {
+      showSnackBar(context, 'Please first select any item');
     }
     notifyListeners();
   }
