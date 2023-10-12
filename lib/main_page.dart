@@ -105,16 +105,16 @@ class MainPage extends StatelessWidget {
                           itemPrice: value.shopItems[index][1],
                           imagePath: value.shopItems[index][2],
                           color: value.shopItems[index][3],
-                          onPressedAdd: () => {
-                            Provider.of<CartModel>(context, listen: false)
-                                .addItemToCart(index),
-                            value.shopItems[index][4] += 1,
-                          },
-                          onPressedRemove: () => {
-                            Provider.of<CartModel>(context, listen: false)
-                                .removeItemFromCart(index),
-                            value.shopItems[index][4] -= 1,
-                          },
+                          onPressedAdd: () =>
+                              Provider.of<CartModel>(context, listen: false)
+                                  .addItemToCart(index),
+                          // value.shopItems[index][4] += 1,
+
+                          onPressedRemove: () =>
+                              Provider.of<CartModel>(context, listen: false)
+                                  .deleteItemFromCart(index),
+                          // value.shopItems[index][4] -= 1,
+
                           quantity: value.shopItems[index][4].toString(),
                         ),
                       );

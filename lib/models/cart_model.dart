@@ -8,7 +8,7 @@ class CartModel extends ChangeNotifier {
     ["Pakcoy", "40", 'assets/images/img_4.png', Colors.amberAccent, 0],
   ];
   var count = 0;
-
+  bool isPresent = false;
   List _cartItems = [];
   // Set<List<String>> setOfArrays = Set<List<String>>.from(_cartItems);
   get cartItems => _cartItems;
@@ -16,27 +16,61 @@ class CartModel extends ChangeNotifier {
   get shopItems => _shopItems;
 
   void addItemToCart(int index) {
-    _cartItems.add(_shopItems[index]);
     count += 1;
+
+    for (int i = 0; i < _cartItems.length; i++) {
+      if (_cartItems[i][0] == _shopItems[index][0]) {
+        _cartItems[i][4] +=
+            1; // Increment the quantity if the same item is found
+        isPresent = true;
+        break;
+      }
+    }
+
+    if (!isPresent) {
+      // _cartItems.add(List.from(_shopItems[index])..add(1));
+      _cartItems.add(_shopItems[index]);
+      _cartItems[_cartItems.length - 1][4] += 1; // Add the item to the cart
+    }
+    isPresent = false;
+
     notifyListeners();
   }
 
   void removeItemFromCart(int index) {
-    _cartItems.removeAt(index);
-    count -= 1;
-    // _cartItems[index][4] -= 1;
+    for (int i = 0; i < _cartItems.length; i++) {
+      if (_cartItems[i][0] == _shopItems[index][0]) {
+        count -= (_cartItems[i][4] as int);
+        _cartItems[i][4] = 0;
+        _cartItems.removeAt(i);
+      }
+    }
+    notifyListeners();
+  }
+
+  void deleteItemFromCart(int index) {
+    if (count > 0) {
+      count -= 1;
+    }
+
+    for (int i = 0; i < _cartItems.length; i++) {
+      if (_cartItems[i][0] == _shopItems[index][0]) {
+        _cartItems[i][4] -= 1;
+        if (_cartItems[i][4] == 0) {
+          _cartItems.removeAt(i);
+        }
+        break;
+      }
+    }
     notifyListeners();
   }
 
   String calculateTotal() {
     double totalPrice = 0;
     for (int i = 0; i < _cartItems.length; i++) {
-      totalPrice += double.parse(_cartItems[i][1]);
+      totalPrice += (double.parse(_cartItems[i][1]) *
+          double.parse(_cartItems[i][4].toString()));
     }
     return totalPrice.toStringAsFixed(2);
   }
-
-  // void quantityCart(int index) {
-  //   _cartItems[index][4] += 1;
-  // }
 }
