@@ -40,6 +40,7 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
@@ -86,11 +87,16 @@ class SignUpPage extends StatelessWidget {
                 Column(
                   children: <Widget>[
                     makeInput("Email", false, validateEmail, _emailController,
-                        'Enter your email'),
+                        'Enter your email', context),
                     makeInput("Password", true, validatePassword,
-                        _passwordController, 'Enter your password'),
-                    makeInput("Confirm Password", true, validateConfirmPassword,
-                        _confirmPasswordController, 'Confirm your password'),
+                        _passwordController, 'Enter your password', context),
+                    makeInput(
+                        "Confirm Password",
+                        true,
+                        validateConfirmPassword,
+                        _confirmPasswordController,
+                        'Confirm your password',
+                        context),
                   ],
                 ),
                 Container(
@@ -99,7 +105,13 @@ class SignUpPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(50),
                       border: Border.all(color: Colors.black)),
                   child: MaterialButton(
-                    minWidth: double.infinity,
+                    minWidth: (screenSize.width > 1100)
+                        ? screenSize.width * .35
+                        : (screenSize.width > 950)
+                            ? screenSize.width * .5
+                            : (screenSize.width > 850)
+                                ? screenSize.width * .75
+                                : double.infinity,
                     height: 60,
                     onPressed: () {
                       _formKey.currentState!.validate();
@@ -121,25 +133,44 @@ class SignUpPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text("Already have an account?"),
-                    InkWell(
-                      onTap: () => {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginPage()))
-                      },
-                      child: Text(
-                        " Login",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 18),
-                      ),
-                    ),
-                  ],
-                ),
+                screenSize.width > 300
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text("Already have an account?"),
+                          InkWell(
+                            onTap: () => {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginPage()))
+                            },
+                            child: Text(
+                              " Login",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600, fontSize: 18),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Column(
+                        children: [
+                          Text("Already have an account?"),
+                          InkWell(
+                            onTap: () => {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginPage()))
+                            },
+                            child: Text(
+                              " Login",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600, fontSize: 18),
+                            ),
+                          ),
+                        ],
+                      )
               ],
             ),
           ),
@@ -148,7 +179,9 @@ class SignUpPage extends StatelessWidget {
     );
   }
 
-  Widget makeInput(label, obscureText, validate, controller, hintText) {
+  Widget makeInput(
+      label, obscureText, validate, controller, hintText, context) {
+    final screenSize = MediaQuery.of(context).size;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -160,19 +193,28 @@ class SignUpPage extends StatelessWidget {
         SizedBox(
           height: 5,
         ),
-        TextFormField(
-          controller: controller,
-          obscureText: obscureText,
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-            enabledBorder:
-                OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-            border:
-                OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-            hintText: hintText,
+        SizedBox(
+          width: (screenSize.width > 1100)
+              ? screenSize.width * .35
+              : (screenSize.width > 950)
+                  ? screenSize.width * .5
+                  : (screenSize.width > 850)
+                      ? screenSize.width * .75
+                      : double.infinity,
+          child: TextFormField(
+            controller: controller,
+            obscureText: obscureText,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+              enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey)),
+              border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey)),
+              hintText: hintText,
+            ),
+            validator: validate,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
           ),
-          validator: validate,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
         ),
         SizedBox(
           height: 30,
