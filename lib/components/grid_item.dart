@@ -78,8 +78,6 @@ class GroceryItemTile extends StatelessWidget {
                     EdgeInsets.only(left: 16, right: 16, top: 5, bottom: 5),
                 decoration: BoxDecoration(
                     color: color, borderRadius: BorderRadius.circular(12)),
-                //     onPressed: onPressedAdd,
-                // color: color,
                 child: Text(
                   'Rs. ' + itemPrice,
                   style: TextStyle(

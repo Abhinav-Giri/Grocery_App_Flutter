@@ -65,6 +65,7 @@ class _CartPageState extends State<CartPage> {
                               child: Icon(Icons.cancel, color: Colors.white),
                             ),
                             direction: DismissDirection.endToStart,
+
                             onDismissed: (direction) {
                               // Remove the item from the cart and rebuild the list
                               Provider.of<CartModel>(context, listen: false)

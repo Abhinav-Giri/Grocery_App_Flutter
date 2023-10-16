@@ -84,10 +84,6 @@ class MainPage extends StatelessWidget {
                 builder: (context, value, child) {
                   return GridView.builder(
                     itemCount: value.shopItems.length,
-                    // childAspectRatio: 20 / 50,
-                    // controller: ScrollController(keepScrollOffset: false),
-                    // shrinkWrap: true,
-                    // scrollDirection: Axis.vertical,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: (screenSize.width > 1350)
                             ? 4
