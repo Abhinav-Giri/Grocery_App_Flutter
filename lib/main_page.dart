@@ -1,8 +1,12 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grocery_app/Beverages/beverages.dart';
+import 'package:grocery_app/Homegoods/homegoods.dart';
 import 'package:grocery_app/cart_page.dart';
 import 'package:grocery_app/components/grid_item.dart';
+import 'package:grocery_app/fruits/fruits.dart';
+import 'package:grocery_app/login_page.dart';
 import 'package:grocery_app/models/cart_model.dart';
 import 'package:grocery_app/splash_screen.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +20,72 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(title: Text('Categories')),
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text(
+                'Categories',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+              ),
+            ),
+            ListTile(
+              title: const Text('Home Goods'),
+              // selected: _selectedIndex == 0,
+              onTap: () {
+                // Update the state of the app
+                // _onItemTapped(0);
+                // Then close the drawer
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomeGoods()));
+              },
+            ),
+            ListTile(
+              title: const Text('Beverages'),
+              // selected: _selectedIndex == 1,
+              onTap: () {
+                // Update the state of the app
+                // _onItemTapped(1);
+                // Then close the drawer
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Beverages()));
+              },
+            ),
+            ListTile(
+              title: const Text('Fruits'),
+              // selected: _selectedIndex == 2,
+              onTap: () {
+                // Update the state of the app
+                // _onItemTapped(2);
+                // Then close the drawer
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Fruits()));
+              },
+            ),
+            ListTile(
+              title: const Text('Sign Out'),
+              // selected: _selectedIndex == 0,
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginPage()));
+                // Update the state of the app
+                // _onItemTapped(0);
+                // Then close the drawer
+                // Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -61,7 +131,7 @@ class MainPage extends StatelessWidget {
                         // Overlay the text on top of the image
                         Positioned(
                           top: 8, // Adjust the top position as needed
-                          left: 16, // Adjust the left position as needed
+                          left: 15, // Adjust the left position as needed
                           child: Text(
                             '${Provider.of<CartModel>(context).count}',
                             style: TextStyle(
@@ -92,7 +162,21 @@ class MainPage extends StatelessWidget {
                                 : (screenSize.width > 300)
                                     ? 2
                                     : 1,
-                        childAspectRatio: 1 / 1,
+                        childAspectRatio: screenSize.width > 950
+                            ? 1 / 1.15
+                            : (screenSize.width > 900)
+                                ? 1 / 1.5
+                                : (screenSize.width > 850)
+                                    ? 1 / 1.1
+                                    : (screenSize.width > 600)
+                                        ? 1 / 1.2
+                                        : (screenSize.width > 500)
+                                            ? 1 / 1.5
+                                            : (screenSize.width > 375)
+                                                ? 1 / 2
+                                                : (screenSize.width > 300)
+                                                    ? 1 / 2.5
+                                                    : 1 / 1.5,
                         crossAxisSpacing: 10),
                     itemBuilder: (context, index) {
                       return FadeInDown(

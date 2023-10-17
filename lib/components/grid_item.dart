@@ -38,8 +38,8 @@ class GroceryItemTile extends StatelessWidget {
                     ? 220
                     : (screenSize.width > 901 && screenSize.width < 1150)
                         ? 200
-                        : (screenSize.width > 691 && screenSize.width < 800)
-                            ? 220
+                        : (screenSize.width < 800)
+                            ? 200
                             : (screenSize.width) > 690
                                 ? 280
                                 : (screenSize.width >= 500 &&
@@ -53,8 +53,8 @@ class GroceryItemTile extends StatelessWidget {
                                             : (screenSize.width >= 291 &&
                                                     screenSize.width < 330)
                                                 ? 30
-                                                : (screenSize.width) > 290
-                                                    ? 50
+                                                : (screenSize.width >= 230)
+                                                    ? 25
                                                     : 0,
                 // width: (screenSize.width) >= 690 ? 250 : 100,
               ),

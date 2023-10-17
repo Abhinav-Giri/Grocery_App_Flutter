@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/home_page.dart';
 import 'package:grocery_app/main_page.dart';
+import 'package:grocery_app/myShop.dart';
 import 'package:grocery_app/signup_page.dart';
 
 // import 'package:login_page_day_23/animation/FadeAnimation.dart';
@@ -124,7 +125,7 @@ class LoginPage extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => HomePage()));
+                                      builder: (context) => MyShop()));
                             }
                           },
                           color: Colors.greenAccent,
