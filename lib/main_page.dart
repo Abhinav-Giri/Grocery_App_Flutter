@@ -10,6 +10,7 @@ import 'package:grocery_app/login_page.dart';
 import 'package:grocery_app/models/cart_model.dart';
 import 'package:grocery_app/splash_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({super.key});
@@ -74,8 +75,10 @@ class MainPage extends StatelessWidget {
             ListTile(
               title: const Text('Sign Out'),
               // selected: _selectedIndex == 0,
-              onTap: () {
-                Navigator.push(context,
+              onTap: () async {
+                var sp = await SharedPreferences.getInstance();
+                sp.setBool('login', false);
+                Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => LoginPage()));
                 // Update the state of the app
                 // _onItemTapped(0);
@@ -109,14 +112,19 @@ class MainPage extends StatelessWidget {
                 child: FadeInLeftBig(
                   delay: Duration(milliseconds: 3000),
                   child: FloatingActionButton(
-                    onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return SplashScreen();
-                        },
-                      ),
-                    ),
+                    onPressed: () async {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return SplashScreen();
+                          },
+                        ),
+                      );
+                      var sp_count = await SharedPreferences.getInstance();
+                      sp_count.setInt(
+                          'count', Provider.of<CartModel>(context).count);
+                    },
                     backgroundColor: Colors.brown,
                     // child: Icon(Icons.shopping_bag),
                     child: Stack(

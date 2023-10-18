@@ -3,6 +3,7 @@ import 'package:grocery_app/home_page.dart';
 import 'package:grocery_app/main_page.dart';
 import 'package:grocery_app/myShop.dart';
 import 'package:grocery_app/signup_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // import 'package:login_page_day_23/animation/FadeAnimation.dart';
 final _formKey = GlobalKey<FormState>();
@@ -119,10 +120,12 @@ class LoginPage extends StatelessWidget {
                                       ? screenSize.width * .75
                                       : double.infinity,
                           height: 60,
-                          onPressed: () {
+                          onPressed: () async {
                             _formKey.currentState!.validate();
+                            var sp = await SharedPreferences.getInstance();
+                            sp.setBool('login', true);
                             if (_formKey.currentState!.validate()) {
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => MyShop()));

@@ -35,7 +35,7 @@ class HomePage extends StatelessWidget {
           const Spacer(),
           GestureDetector(
             onTap: () {
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) {
                   return MainPage();

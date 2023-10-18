@@ -1,16 +1,43 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:grocery_app/login_page.dart';
+import 'package:grocery_app/myShop.dart';
 import 'package:grocery_app/signup_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: WelcomePage(),
-  ));
-}
+// void main() {
+//   runApp(MaterialApp(
+//     debugShowCheckedModeBanner: false,
+//     home: WelcomePage(),
+//   ));
+// }
 
 class WelcomePage extends StatelessWidget {
+  // checkLogin() async {
+  //   var sp = await SharedPreferences.getInstance();
+  //   isLoggedIn = sp.getBool('keylogin')!;
+
+  //   Timer(Duration(seconds: 2), () {
+  //     if (isLoggedIn != null) {
+  //       if (isLoggedIn) {
+  //         Navigator.pushReplacement(
+  //             context, MaterialPageRoute(builder: (context) => MyShop()));
+  //         return;
+  //       } else {
+  //         Navigator.pushReplacement(
+  //             context, MaterialPageRoute(builder: (context) => LoginPage()));
+  //         return;
+  //       }
+  //     } else {
+  //       Navigator.pushReplacement(
+  //           context, MaterialPageRoute(builder: (context) => LoginPage()));
+  //       return;
+  //     }
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -66,11 +93,21 @@ class WelcomePage extends StatelessWidget {
                                   ? screenSize.width * .75
                                   : double.infinity,
                       height: 60,
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginPage()));
+                      onPressed: () async {
+                        var sp = await SharedPreferences.getInstance();
+                        var check = await sp.getBool('login');
+                        if (check == true) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyShop()));
+                        } else {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()));
+                        }
+                        // setState(() {});
                       },
                       shape: RoundedRectangleBorder(
                           side: BorderSide(color: Colors.black),
@@ -131,3 +168,5 @@ class WelcomePage extends StatelessWidget {
     );
   }
 }
+
+var isLoggedIn = true;

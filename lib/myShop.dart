@@ -198,7 +198,7 @@ class MyShop extends StatelessWidget {
                       padding: const EdgeInsets.all(12.0),
                       child: MaterialButton(
                         onPressed: () => {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => HomePage()))
