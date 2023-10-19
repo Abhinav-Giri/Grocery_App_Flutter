@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:grocery_app/login_page.dart';
+import 'package:grocery_app/services/api.dart';
+
+import 'package:http/http.dart' as http;
 
 final _formKey = GlobalKey<FormState>();
 
@@ -37,6 +42,21 @@ class SignUpPage extends StatelessWidget {
     }
     return null;
   }
+
+  // Future apiCall(data) async {
+  //   try {
+  //     final res = await http.post(Uri.parse('http://localhost:3001/api/signup'),
+  //         body: data);
+  //     if (res.statusCode == 200) {
+  //       var data = jsonDecode(res.body.toString());
+  //       debugPrint(data);
+  //     } else {
+  //       debugPrint('Not able to post');
+  //     }
+  //   } catch (e) {
+  //     debugPrint(e.toString());
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -113,13 +133,32 @@ class SignUpPage extends StatelessWidget {
                                 ? screenSize.width * .75
                                 : double.infinity,
                     height: 60,
-                    onPressed: () {
+                    onPressed: () async {
                       _formKey.currentState!.validate();
+
                       if (_formKey.currentState!.validate()) {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => LoginPage()));
+                        var data = {
+                          'email': _emailController.text,
+                          'password': _passwordController.text
+                        };
+                        Api.apiCall(data);
+                        // await http.post(
+                        //     Uri.parse('http://localhost:3001/api/signup'),
+                        //     body: data);
+                        // final res = await http.post(
+                        //     Uri.parse('http://localhost:3001/api/signup'),
+                        //     body: data);
+                        // if (res.statusCode == 200) {
+                        //   var data = jsonDecode(res.body.toString());
+                        // } else {
+                        //   debugPrint('Not able to post');
+                        // }
+
+                        // apiCall(data);
                       }
                     },
                     color: Colors.greenAccent,

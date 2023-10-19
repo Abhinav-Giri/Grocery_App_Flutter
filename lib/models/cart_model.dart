@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/snackbar.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
 class CartModel extends ChangeNotifier {
   final List _shopItems = [
@@ -9,12 +10,18 @@ class CartModel extends ChangeNotifier {
     ["Pakcoy", "40", 'assets/images/img_4.png', Colors.amberAccent, 0],
   ];
   var count = 0;
+
   bool isPresent = false;
   List _cartItems = [];
   // Set<List<String>> setOfArrays = Set<List<String>>.from(_cartItems);
   get cartItems => _cartItems;
 
   get shopItems => _shopItems;
+
+  // void initPrefs() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   count = prefs.getInt('count') ?? 0;
+  // }
 
   void addItemToCart(int index) {
     count += 1;

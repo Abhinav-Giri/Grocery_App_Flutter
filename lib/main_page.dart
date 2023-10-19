@@ -13,10 +13,9 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MainPage extends StatelessWidget {
-  const MainPage({super.key});
+  MainPage({super.key});
 
   // var count;
-
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -113,6 +112,9 @@ class MainPage extends StatelessWidget {
                   delay: Duration(milliseconds: 3000),
                   child: FloatingActionButton(
                     onPressed: () async {
+                      var sp_count = await SharedPreferences.getInstance();
+                      sp_count.setInt(
+                          'count', Provider.of<CartModel>(context).count);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -121,9 +123,6 @@ class MainPage extends StatelessWidget {
                           },
                         ),
                       );
-                      var sp_count = await SharedPreferences.getInstance();
-                      sp_count.setInt(
-                          'count', Provider.of<CartModel>(context).count);
                     },
                     backgroundColor: Colors.brown,
                     // child: Icon(Icons.shopping_bag),
@@ -141,7 +140,7 @@ class MainPage extends StatelessWidget {
                           top: 8, // Adjust the top position as needed
                           left: 15, // Adjust the left position as needed
                           child: Text(
-                            '${Provider.of<CartModel>(context).count}',
+                            '${Provider.of<CartModel>(context).count} ',
                             style: TextStyle(
                               color: Colors.brown, // Text color
                               fontSize: 12, // Text font size
@@ -216,4 +215,19 @@ class MainPage extends StatelessWidget {
       ),
     );
   }
+}
+
+String count_cart = '';
+@override
+void initState() {
+  // super.initState();
+  isCount();
+}
+
+void isCount() async {
+  SharedPreferences sp_count1 = await SharedPreferences.getInstance();
+  count_cart = sp_count1.getInt('sp_count').toString();
+  // if (count_cart != null) {
+  //   count_cart = Provider.of<CartModel>(context).count.toString();
+  // }
 }
