@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/home_page.dart';
 import 'package:grocery_app/main_page.dart';
+import 'package:grocery_app/models/cart_model.dart';
 import 'package:grocery_app/myShop.dart';
+import 'package:grocery_app/services/api.dart';
 import 'package:grocery_app/signup_page.dart';
+import 'package:grocery_app/snackbar.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // import 'package:login_page_day_23/animation/FadeAnimation.dart';
@@ -11,7 +15,8 @@ final _formKey = GlobalKey<FormState>();
 class LoginPage extends StatelessWidget {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
+  bool checkLogin = false;
+  var id;
   // LoginPage(String text, {super.key});
 
   String? validateEmail(String? email) {
@@ -125,10 +130,25 @@ class LoginPage extends StatelessWidget {
                             var sp = await SharedPreferences.getInstance();
                             sp.setBool('login', true);
                             if (_formKey.currentState!.validate()) {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => MyShop()));
+                              var response = await Api.getcredentials(
+                                  _emailController.text, checkLogin);
+                              bool checkLogins = response['checkLogins'];
+                              String id = response['ids'];
+                              Provider.of<CartModel>(context, listen: false)
+                                  .updateCount(id);
+                              if (checkLogins) {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        // builder: (context) => MyShop(id:id)));
+                                        builder: (context) => MyShop()));
+                              } else {
+                                final snackBar = SnackBar(
+                                  content: Text('Please do SignUp first!'),
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    snackBar); // Show the SnackBar
+                              }
                             }
                           },
                           color: Colors.greenAccent,
@@ -234,7 +254,7 @@ class LoginPage extends StatelessWidget {
               hintText: hintText,
             ),
             validator: validate,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
+            // autovalidateMode: AutovalidateMode.onUserInteraction,
           ),
         ),
         SizedBox(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app/services/quantity.dart';
 import 'package:grocery_app/snackbar.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,6 +26,7 @@ class CartModel extends ChangeNotifier {
 
   void addItemToCart(int index) {
     count += 1;
+    // Quantity.postCount(count, id);
 
     for (int i = 0; i < _cartItems.length; i++) {
       if (_cartItems[i][0] == _shopItems[index][0]) {
@@ -54,6 +56,11 @@ class CartModel extends ChangeNotifier {
       }
     }
     notifyListeners();
+  }
+
+  void updateCount(String id) {
+    // var counting = (count as String);
+    // Quantity.postCount(counting, id);
   }
 
   void deleteItemFromCart(int index, context) {

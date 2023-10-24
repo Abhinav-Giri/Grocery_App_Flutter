@@ -9,33 +9,115 @@ var server = http.createServer(app);
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+const cors = require("cors");
+app.use(cors());
+const DB = 'mongodb+srv://abhinav:giri@cluster1.f5hitoc.mongodb.net/flutter'
+// mongodb+srv://abhinav:<password>@cluster1.f5hitoc.mongodb.net/?retryWrites=true&w=majority
+const signupData = [];
 
-// const DB = 'mongodb+srv://abhinav:giri@cluster1.f5hitoc.mongodb.net/?retryWrites=true&w=majority'
 
-const productData = [];
-app.post('/api/signup', (req, res)=>{
-    console.log("Result", req.body);
-    const pdata = {
-        "email":  req.body.email,
-        "passsword": req.body.password,
+// app.get('/api/get_signup',(req,res)=>{
+//     const pdata = {
+//         "email":  req.body.email,
+//         "passsword": req.body.password,
         
-    };
-    productData.push(pdata);
-    console.log('SignUp Details: ',pdata);
-    res.status(200).send({
-        "status_code" : 200,
-        "message": "Login Successful",
-        "loginDetails" : pdata
+//     };
+//     res.status(200).send({
+//         "status_code" : 200,
+//         "message": "Successfuly Fetched Data"}
+// )
+// });
+
+// 'useUnifiedTopology' : true
+// mongoose.set('strictQuery',true);
+mongoose.connect(DB).then(()=>{
+    console.log("Connection successful!");
+
+    app.post('/api/signup', async(req, res)=>{
+        console.log("Result", req.body);
+       let data =  SignUp(req.body);
+      try{
+        let signupData = data.save();
+        res.status(200).json(signupData);
+
+      }catch (error){
+        res.status(400).json({
+            'status': error.message
+        })
+
+      }
+        
+    },);
+    app.get('/api/get_signup:email', async (req, res) => {
+      try {
+        const signup_data = await SignUp.findOne({ 'email': req.params.email });
+        // const signup_data = await SignUp.find();
+        if (signup_data != null) {
+          console.log('API is running...');
+          res.status(200).json({ 'data': signup_data });
+        } else {
+          console.log('API is not running...');
+          res.status(404).json({ 'error': 'Signup data not found' , 'rr': req.params.email});
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Internal server error' });
+      }
     });
-}
+    
+//     app.patch('/api/count:id', async(req, res)=>{
+//       console.log("Result", req.body);
+//      let id = (req.params.id);
+//      let updatedCounts =  JSON.stringify(req.body);
+//      let updatedCount = updatedCounts['count'];
+//      let options = {new: true};
 
-)
+//     try{
+//       const data = await SignUp.findByIdAndUpdate(id,updatedCount,options);
+//       res.status(200).json(data);
+// debugPrint('Successfully updated count value')
+//     }catch (error){
+//       res.status(400).json({
+//           'status': error.message
+//       })
 
-// mongoose.connect(DB).then(()=>{
-//     console.log("Connection successful!");
-// }).catch((e)=> {console.log(e);
-// })
+//     }
+      
+//   },);
 
+  app.patch('/api/items', async(req, res)=>{
+    console.log("Result", req.body);
+   let data =  SignUp(req.body);
+  try{
+    let signupData = data.save();
+    res.status(200).json(signupData);
+
+  }catch (error){
+    res.status(400).json({
+        'status': error.message
+    })
+
+  }
+    
+},);
+  
+  });
 server.listen(port, '0.0.0.0', ()=>{
     console.log(`Server is runing on port ${port}`)
 });
+
+
+
+
+
+
+
+
+
+// (error)=>{
+//     if(!error){
+//         console.log('Connected to mongoDB')
+//     }
+//     else{
+//         console.log(error.message);
+//     }

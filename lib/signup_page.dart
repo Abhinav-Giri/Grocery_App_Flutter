@@ -145,20 +145,7 @@ class SignUpPage extends StatelessWidget {
                           'email': _emailController.text,
                           'password': _passwordController.text
                         };
-                        Api.apiCall(data);
-                        // await http.post(
-                        //     Uri.parse('http://localhost:3001/api/signup'),
-                        //     body: data);
-                        // final res = await http.post(
-                        //     Uri.parse('http://localhost:3001/api/signup'),
-                        //     body: data);
-                        // if (res.statusCode == 200) {
-                        //   var data = jsonDecode(res.body.toString());
-                        // } else {
-                        //   debugPrint('Not able to post');
-                        // }
-
-                        // apiCall(data);
+                        Api.signup(data);
                       }
                     },
                     color: Colors.greenAccent,

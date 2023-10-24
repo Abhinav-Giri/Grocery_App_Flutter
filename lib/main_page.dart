@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MainPage extends StatelessWidget {
+  var id;
   MainPage({super.key});
 
   // var count;
@@ -195,6 +196,7 @@ class MainPage extends StatelessWidget {
                           onPressedAdd: () =>
                               Provider.of<CartModel>(context, listen: false)
                                   .addItemToCart(index),
+                          // .addItemToCart(index, id),
                           // value.shopItems[index][4] += 1,
 
                           onPressedRemove: () =>
