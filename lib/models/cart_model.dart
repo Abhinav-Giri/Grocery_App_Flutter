@@ -18,11 +18,7 @@ class CartModel extends ChangeNotifier {
   get cartItems => _cartItems;
 
   get shopItems => _shopItems;
-
-  // void initPrefs() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   count = prefs.getInt('count') ?? 0;
-  // }
+  var dataId;
 
   void addItemToCart(int index) {
     count += 1;
@@ -59,7 +55,8 @@ class CartModel extends ChangeNotifier {
   }
 
   void updateCount(String id) {
-    // var counting = (count as String);
+    dataId = id;
+    var counting = (count.toString());
     // Quantity.postCount(counting, id);
   }
 

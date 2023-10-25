@@ -24,7 +24,7 @@ class Api {
   }
 
   static getcredentials(String checkEmail, bool checkLogin) async {
-    // List credentials = [];
+    // List credentials = [];, 'shopItem': items
     try {
       final res =
           await http.get(Uri.parse('${baseUrl}get_signup${checkEmail}'));
@@ -32,18 +32,13 @@ class Api {
         var data = jsonDecode(res.body);
         debugPrint("Pre success!");
         checkLogin = true;
-
-        // debugPrint('stringID%%%%%%%${data["data"]["_id"].toString()}');
         debugPrint('BOOOOOOOOOOL${checkLogin}');
         var id = (data["data"]["_id"].toString());
         debugPrint('id######:${id}');
+        var items = (data["data"]["shopItems"]);
+        // debugPrint('items???????:${items}');
         var responseData = ({'checkLogins': checkLogin, 'ids': id});
         return (responseData);
-        // data[]
-
-        // await data['data'].forEach((value) => {(value.email == checkEmail)});
-
-        // debugPrint(data.data);
       } else if (res.statusCode == 404) {
         debugPrint('Failed');
         return checkLogin = false;

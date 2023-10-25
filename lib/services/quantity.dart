@@ -7,17 +7,18 @@ import 'package:http/http.dart' as http;
 class Quantity {
   static const baseUrl = "http://localhost:3001/api/";
 
-  static postCount(count, id) async {
+  static postCount(String count, String id) async {
     try {
       final Map requestBody = {
-        'count':
-            (count as String), // Assuming 'count' is the key the API expects
+        'count': count, // Assuming 'count' is the key the API expects
       };
       final res = await http.patch(Uri.parse('${baseUrl}count${id}'),
           body: (requestBody));
+      // debugPrint('res${id}req${count}');
       if (res.statusCode == 200) {
         var data = jsonDecode(res.body);
         debugPrint('Success');
+        debugPrint('patch${data}');
       } else {
         debugPrint('Not able to post');
       }

@@ -8,6 +8,7 @@ import 'package:grocery_app/components/grid_item.dart';
 import 'package:grocery_app/fruits/fruits.dart';
 import 'package:grocery_app/login_page.dart';
 import 'package:grocery_app/models/cart_model.dart';
+import 'package:grocery_app/services/quantity.dart';
 import 'package:grocery_app/splash_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -78,6 +79,14 @@ class MainPage extends StatelessWidget {
               onTap: () async {
                 var sp = await SharedPreferences.getInstance();
                 sp.setBool('login', false);
+                // var dataId = returnId()
+                String id = Provider.of<CartModel>(context, listen: false)
+                    .dataId
+                    .toString();
+                String outCount = Provider.of<CartModel>(context, listen: false)
+                    .count
+                    .toString();
+                await Quantity.postCount(outCount, id);
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => LoginPage()));
                 // Update the state of the app
@@ -131,10 +140,6 @@ class MainPage extends StatelessWidget {
                       children: [
                         // Display the image
                         Icon(Icons.shopping_cart, size: 40),
-                        //   fit: BoxFit.cover, // Adjust the BoxFit as needed
-                        //   width: double.infinity, // Set the width to fill the screen
-                        //   height: double.infinity, // Set the height to fill the screen
-                        // ),
 
                         // Overlay the text on top of the image
                         Positioned(

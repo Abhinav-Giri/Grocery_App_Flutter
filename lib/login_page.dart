@@ -133,7 +133,7 @@ class LoginPage extends StatelessWidget {
                               var response = await Api.getcredentials(
                                   _emailController.text, checkLogin);
                               bool checkLogins = response['checkLogins'];
-                              String id = response['ids'];
+                              String id = response['ids'].toString();
                               Provider.of<CartModel>(context, listen: false)
                                   .updateCount(id);
                               if (checkLogins) {

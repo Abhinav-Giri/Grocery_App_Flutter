@@ -37,7 +37,7 @@ mongoose.connect(DB).then(()=>{
         console.log("Result", req.body);
        let data =  SignUp(req.body);
       try{
-        let signupData = data.save();
+        let signupData = await data.save();
         res.status(200).json(signupData);
 
       }catch (error){
@@ -65,25 +65,25 @@ mongoose.connect(DB).then(()=>{
       }
     });
     
-//     app.patch('/api/count:id', async(req, res)=>{
-//       console.log("Result", req.body);
-//      let id = (req.params.id);
-//      let updatedCounts =  JSON.stringify(req.body);
-//      let updatedCount = updatedCounts['count'];
-//      let options = {new: true};
+    app.patch('/api/count:id', async(req, res)=>{
+      console.log("Result", req.body);
+     let id = (req.params.id).toString();
+     let options = {new: true};
 
-//     try{
-//       const data = await SignUp.findByIdAndUpdate(id,updatedCount,options);
-//       res.status(200).json(data);
+    try{
+      const data = await SignUp.findByIdAndUpdate(id,req.body,options);
+      let signupData = await data.save();
+      console.log("UpdatedCountPrintttttt",signupData);
+      res.status(200).json(signupData);
 // debugPrint('Successfully updated count value')
-//     }catch (error){
-//       res.status(400).json({
-//           'status': error.message
-//       })
+    }catch (error){
+      res.status(400).json({
+          'status': error.message
+      })
 
-//     }
+    }
       
-//   },);
+  },);
 
   app.patch('/api/items', async(req, res)=>{
     console.log("Result", req.body);
