@@ -7,34 +7,53 @@ import 'package:http/http.dart' as http;
 class Quantity {
   static const baseUrl = "http://localhost:3001/api/";
 
-  static postCount(String count, String id) async {
+  static postCount(String count, String id, List<dynamic> arr) async {
     try {
-      final Map requestBody = {
-        'count': count, // Assuming 'count' is the key the API expects
+      debugPrint('arrrrr${arr}');
+      // List<dynamic>newList = jsonEncode(arr);
+      final Map<String, dynamic> requestBody = {
+        'count': count,
+        'shopItems': arr,
       };
-      final res = await http.patch(Uri.parse('${baseUrl}count${id}'),
-          body: (requestBody));
-      // debugPrint('res${id}req${count}');
+      debugPrint('Able to update count');
+      final res = await http.patch(
+        Uri.parse('${baseUrl}count${id}'),
+        body: jsonEncode(requestBody),
+        headers: {
+          'Content-Type': 'application/json', // Set the content type
+        },
+      );
+
       if (res.statusCode == 200) {
         var data = jsonDecode(res.body);
         debugPrint('Success');
         debugPrint('patch${data}');
       } else {
-        debugPrint('Not able to post');
+        debugPrint('Not able to update count');
       }
     } catch (e) {
       debugPrint(e.toString());
     }
   }
 
-  // static itemQuantity(Map data) async {
+// debugPrint('ccount${count}iiiiiiiid${id}');
+//       debugPrint('arrrrr${arr}');
+
+  // static postCartItems(String id, List arr) async {
+  //   debugPrint('CartVAlues###${arr}');
   //   try {
-  //     final res = await http.post(Uri.parse('${baseUrl}items'), body: (data));
+  //     final Map requestBody = {
+  //       'shopItems': arr // Assuming 'count' is the key the API expects
+  //     };
+  //     debugPrint('CartVAlues###${requestBody}');
+  //     final res = await http.patch(Uri.parse('${baseUrl}count${id}'),
+  //         body: jsonEncode(requestBody));
   //     if (res.statusCode == 200) {
   //       var data = jsonDecode(res.body);
   //       debugPrint('Success');
+  //       debugPrint('patch${data}');
   //     } else {
-  //       debugPrint('Not able to post');
+  //       debugPrint('Not able to update items');
   //     }
   //   } catch (e) {
   //     debugPrint(e.toString());

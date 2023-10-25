@@ -11,7 +11,7 @@ class CartModel extends ChangeNotifier {
     ["Pakcoy", "40", 'assets/images/img_4.png', Colors.amberAccent, 0],
   ];
   var count = 0;
-
+  // var newCartItems = [];
   bool isPresent = false;
   List _cartItems = [];
   // Set<List<String>> setOfArrays = Set<List<String>>.from(_cartItems);
@@ -92,5 +92,11 @@ class CartModel extends ChangeNotifier {
           double.parse(_cartItems[i][4].toString()));
     }
     return totalPrice.toStringAsFixed(2);
+  }
+
+  updatedCartItems() {
+    List newList = _cartItems.map((item) {
+      return [item[0], item[item.length - 1]];
+    }).toList();
   }
 }

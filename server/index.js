@@ -66,16 +66,17 @@ mongoose.connect(DB).then(()=>{
     });
     
     app.patch('/api/count:id', async(req, res)=>{
-      console.log("Result", req.body);
+      console.log("Result", (req.body));
      let id = (req.params.id).toString();
      let options = {new: true};
 
     try{
       const data = await SignUp.findByIdAndUpdate(id,req.body,options);
+      
       let signupData = await data.save();
       console.log("UpdatedCountPrintttttt",signupData);
       res.status(200).json(signupData);
-// debugPrint('Successfully updated count value')
+
     }catch (error){
       res.status(400).json({
           'status': error.message
@@ -84,6 +85,29 @@ mongoose.connect(DB).then(()=>{
     }
       
   },);
+
+//   app.patch('/api/count:id', async(req, res)=>{
+//     console.log("Result", req.body);
+//    let id = (req.params.id).toString();
+//    let options = {new: true};
+
+//   try{
+//     const data = await SignUp.findByIdAndUpdate(id,req.body,options);
+    
+//     let signupData = await data.save();
+//     console.log("UpdatedItemssssssss",signupData);
+//     res.status(200).json(signupData);
+
+//   }catch (error){
+//     res.status(400).json({
+//         'status': error.message
+//     })
+
+//   }
+    
+// },);
+
+
 
   app.patch('/api/items', async(req, res)=>{
     console.log("Result", req.body);
@@ -107,17 +131,3 @@ server.listen(port, '0.0.0.0', ()=>{
 });
 
 
-
-
-
-
-
-
-
-// (error)=>{
-//     if(!error){
-//         console.log('Connected to mongoDB')
-//     }
-//     else{
-//         console.log(error.message);
-//     }

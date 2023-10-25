@@ -56,18 +56,7 @@ class GroceryItemTile extends StatelessWidget {
                                                 : (screenSize.width >= 230)
                                                     ? 25
                                                     : 0,
-                // width: (screenSize.width) >= 690 ? 250 : 100,
               ),
-              // SizedBox(
-              //     height: (screenSize.width > 690)
-              //         ? 2
-              //         : (screenSize.width > 600)
-              //             ? 22
-              //             : (screenSize.width > 330 && screenSize.width > 291)
-              //                 ? 0
-              //                 : (screenSize.width > 290)
-              //                     ? 20
-              //                     : 30),
               Text(
                 itemName,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),

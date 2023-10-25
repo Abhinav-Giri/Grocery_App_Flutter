@@ -86,7 +86,15 @@ class MainPage extends StatelessWidget {
                 String outCount = Provider.of<CartModel>(context, listen: false)
                     .count
                     .toString();
-                await Quantity.postCount(outCount, id);
+                var arr = await Provider.of<CartModel>(context, listen: false)
+                    .cartItems;
+                List<dynamic> newList = await arr.map((item) {
+                  return [item[0], item[item.length - 1]];
+                }).toList();
+                await Quantity.postCount(outCount, id, newList);
+
+                // await Quantity.postCartItems(id, newList);
+
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => LoginPage()));
                 // Update the state of the app
