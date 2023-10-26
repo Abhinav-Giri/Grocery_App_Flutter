@@ -11,7 +11,7 @@ app.use(express.urlencoded({extended: true}));
 
 const cors = require("cors");
 app.use(cors());
-
+const DB = 'mongodb+srv://abhinav:giri@cluster1.f5hitoc.mongodb.net/flutter';
 // mongodb+srv://abhinav:<password>@cluster1.f5hitoc.mongodb.net/?retryWrites=true&w=majority
 const signupData = [];
 
@@ -51,7 +51,22 @@ mongoose.connect(DB).then(()=>{
         res.status(500).json({ error: 'Internal server error' });
       }
     });
-    
+    app.get('/api/get_login:email', async (req, res) => {
+      try {
+        const signup_data = await SignUp.findOne({ 'email': req.params.email });
+        // const signup_data = await SignUp.find();
+        if (signup_data != null) {
+          console.log('API is running...');
+          res.status(200).json({ 'data': signup_data });
+        } else {
+          console.log('API is not running...');
+          res.status(404).json({ 'error': 'Signup data not found' , 'rr': req.params.email});
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Internal server error' });
+      }
+    });
     app.patch('/api/count:id', async(req, res)=>{
       console.log("Result", (req.body));
      let id = (req.params.id).toString();
