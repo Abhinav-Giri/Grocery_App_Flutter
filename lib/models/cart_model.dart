@@ -11,10 +11,9 @@ class CartModel extends ChangeNotifier {
     ["Pakcoy", "40", 'assets/images/img_4.png', Colors.amberAccent, 0],
   ];
   var count = 0;
-  // var newCartItems = [];
   bool isPresent = false;
   List _cartItems = [];
-  // Set<List<String>> setOfArrays = Set<List<String>>.from(_cartItems);
+
   get cartItems => _cartItems;
 
   get shopItems => _shopItems;
@@ -54,10 +53,19 @@ class CartModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateCount(String id) {
+  void updateCount(String id, int updatedCount, updatedShopItems) {
     dataId = id;
-    var counting = (count.toString());
-    // Quantity.postCount(counting, id);
+    if (updatedCount > 0) {
+      count = updatedCount;
+      for (int i = 0; i < updatedShopItems.length; i++) {
+        for (int j = 0; j < updatedShopItems.length; j++) {
+          if (_shopItems[i][0] == updatedShopItems[j][0]) {
+            _shopItems[i][4] = (updatedShopItems[j][1]);
+            _cartItems.add(_shopItems[i]);
+          }
+        }
+      }
+    }
   }
 
   void deleteItemFromCart(int index, context) {
@@ -68,18 +76,12 @@ class CartModel extends ChangeNotifier {
           count -= 1;
           if (_cartItems[i][4] == 0) {
             _cartItems.removeAt(i);
-            // showSnackBar(context, 'Please first select this item');
           }
           break;
         }
         showSnackBar(context, 'Please first select this item');
       }
-      // if(_cartItems.contains(_shopItems[index][0])){
-
-      // }
-    }
-    // else if(count > 0 && ){}
-    else {
+    } else {
       showSnackBar(context, 'Please first select any item');
     }
     notifyListeners();
@@ -92,11 +94,5 @@ class CartModel extends ChangeNotifier {
           double.parse(_cartItems[i][4].toString()));
     }
     return totalPrice.toStringAsFixed(2);
-  }
-
-  updatedCartItems() {
-    List newList = _cartItems.map((item) {
-      return [item[0], item[item.length - 1]];
-    }).toList();
   }
 }

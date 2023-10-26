@@ -134,8 +134,11 @@ class LoginPage extends StatelessWidget {
                                   _emailController.text, checkLogin);
                               bool checkLogins = response['checkLogins'];
                               String id = response['ids'].toString();
+                              int count = response['count'];
+                              var shopItems = response['shopItems'];
+                              debugPrint('newShopItems***${shopItems}');
                               Provider.of<CartModel>(context, listen: false)
-                                  .updateCount(id);
+                                  .updateCount(id, count, shopItems);
                               if (checkLogins) {
                                 Navigator.pushReplacement(
                                     context,

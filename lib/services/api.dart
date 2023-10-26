@@ -35,9 +35,21 @@ class Api {
         debugPrint('BOOOOOOOOOOL${checkLogin}');
         var id = (data["data"]["_id"].toString());
         debugPrint('id######:${id}');
-        var items = (data["data"]["shopItems"]);
-        // debugPrint('items???????:${items}');
-        var responseData = ({'checkLogins': checkLogin, 'ids': id});
+        // List<List> items
+        List<dynamic> items = (data["data"]["shopItems"])!;
+        String updatedCount = (data["data"]["count"]);
+
+        debugPrint('items???????:${items}');
+        debugPrint("UpdatedCount${updatedCount}");
+        int updCount = int.parse(updatedCount);
+        debugPrint("NewUpdatedCount${updCount}");
+
+        var responseData = ({
+          'checkLogins': checkLogin,
+          'ids': id,
+          'count': updCount,
+          'shopItems': items
+        });
         return (responseData);
       } else if (res.statusCode == 404) {
         debugPrint('Failed');

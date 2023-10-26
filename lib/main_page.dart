@@ -75,11 +75,9 @@ class MainPage extends StatelessWidget {
             ),
             ListTile(
               title: const Text('Sign Out'),
-              // selected: _selectedIndex == 0,
               onTap: () async {
                 var sp = await SharedPreferences.getInstance();
                 sp.setBool('login', false);
-                // var dataId = returnId()
                 String id = Provider.of<CartModel>(context, listen: false)
                     .dataId
                     .toString();
@@ -92,15 +90,8 @@ class MainPage extends StatelessWidget {
                   return [item[0], item[item.length - 1]];
                 }).toList();
                 await Quantity.postCount(outCount, id, newList);
-
-                // await Quantity.postCartItems(id, newList);
-
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => LoginPage()));
-                // Update the state of the app
-                // _onItemTapped(0);
-                // Then close the drawer
-                // Navigator.pop(context);
               },
             ),
           ],
@@ -131,8 +122,8 @@ class MainPage extends StatelessWidget {
                   child: FloatingActionButton(
                     onPressed: () async {
                       var sp_count = await SharedPreferences.getInstance();
-                      sp_count.setInt(
-                          'count', Provider.of<CartModel>(context).count);
+                      sp_count.setInt('count',
+                          Provider.of<CartModel>(context, listen: false).count);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
