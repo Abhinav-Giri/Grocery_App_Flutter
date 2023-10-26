@@ -42,33 +42,21 @@ class MainPage extends StatelessWidget {
             ),
             ListTile(
               title: const Text('Home Goods'),
-              // selected: _selectedIndex == 0,
               onTap: () {
-                // Update the state of the app
-                // _onItemTapped(0);
-                // Then close the drawer
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => HomeGoods()));
               },
             ),
             ListTile(
               title: const Text('Beverages'),
-              // selected: _selectedIndex == 1,
               onTap: () {
-                // Update the state of the app
-                // _onItemTapped(1);
-                // Then close the drawer
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => Beverages()));
               },
             ),
             ListTile(
               title: const Text('Fruits'),
-              // selected: _selectedIndex == 2,
               onTap: () {
-                // Update the state of the app
-                // _onItemTapped(2);
-                // Then close the drawer
                 Navigator.push(
                     context, MaterialPageRoute(builder: (context) => Fruits()));
               },
@@ -81,6 +69,7 @@ class MainPage extends StatelessWidget {
                 String id = Provider.of<CartModel>(context, listen: false)
                     .dataId
                     .toString();
+                sp.setString('userId', id);
                 String outCount = Provider.of<CartModel>(context, listen: false)
                     .count
                     .toString();

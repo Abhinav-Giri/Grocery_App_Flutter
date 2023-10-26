@@ -130,15 +130,21 @@ class LoginPage extends StatelessWidget {
                             var sp = await SharedPreferences.getInstance();
                             sp.setBool('login', true);
                             if (_formKey.currentState!.validate()) {
+                              //doing get API call
                               var response = await Api.getcredentials(
                                   _emailController.text, checkLogin);
                               bool checkLogins = response['checkLogins'];
                               String id = response['ids'].toString();
                               int count = response['count'];
                               var shopItems = response['shopItems'];
-                              debugPrint('newShopItems***${shopItems}');
+
+                              //updating cart by sending values to this function
                               Provider.of<CartModel>(context, listen: false)
                                   .updateCount(id, count, shopItems);
+
+                              //setting email for API in caseof credential less logins
+                              sp.setString('userEmail', _emailController.text);
+
                               if (checkLogins) {
                                 Navigator.pushReplacement(
                                     context,

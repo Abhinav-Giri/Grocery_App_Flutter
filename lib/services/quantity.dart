@@ -36,27 +36,38 @@ class Quantity {
     }
   }
 
-// debugPrint('ccount${count}iiiiiiiid${id}');
-//       debugPrint('arrrrr${arr}');
+  static getDirectLogin(String email) async {
+    // List credentials = [];, 'shopItem': items
+    try {
+      final res = await http.get(Uri.parse('${baseUrl}get_login${email}'));
+      if (res.statusCode == 200) {
+        var data = jsonDecode(res.body);
+        debugPrint("Pre success!");
+        var id = (data["data"]["_id"].toString());
+        debugPrint('id######:${id}');
+        // List<List> items
+        List<dynamic> items = (data["data"]["shopItems"])!;
+        String updatedCount = (data["data"]["count"]);
+        int updCount = int.parse(updatedCount);
 
-  // static postCartItems(String id, List arr) async {
-  //   debugPrint('CartVAlues###${arr}');
-  //   try {
-  //     final Map requestBody = {
-  //       'shopItems': arr // Assuming 'count' is the key the API expects
-  //     };
-  //     debugPrint('CartVAlues###${requestBody}');
-  //     final res = await http.patch(Uri.parse('${baseUrl}count${id}'),
-  //         body: jsonEncode(requestBody));
-  //     if (res.statusCode == 200) {
-  //       var data = jsonDecode(res.body);
-  //       debugPrint('Success');
-  //       debugPrint('patch${data}');
-  //     } else {
-  //       debugPrint('Not able to update items');
-  //     }
-  //   } catch (e) {
-  //     debugPrint(e.toString());
-  //   }
-  // }
+        debugPrint('items???????:${items}');
+        debugPrint("NewUpdatedCount${updCount}");
+
+        var responseData = ({
+          'ids': id,
+          'count': updCount,
+          'shopItems': items,
+        });
+        return (responseData);
+      } else if (res.statusCode == 404) {
+        debugPrint('Failed');
+      } else if (res.statusCode == 500) {
+        debugPrint(' Server Failed');
+      } else {
+        debugPrint('Not able to get');
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
 }

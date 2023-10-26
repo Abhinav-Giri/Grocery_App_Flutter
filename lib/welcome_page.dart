@@ -3,8 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:grocery_app/login_page.dart';
+import 'package:grocery_app/models/cart_model.dart';
 import 'package:grocery_app/myShop.dart';
+import 'package:grocery_app/services/quantity.dart';
 import 'package:grocery_app/signup_page.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // void main() {
@@ -96,7 +99,17 @@ class WelcomePage extends StatelessWidget {
                       onPressed: () async {
                         var sp = await SharedPreferences.getInstance();
                         var check = await sp.getBool('login');
+                        var directLoginEmail =
+                            await sp.getString('userEmail').toString();
+                        debugPrint('emailllllll${directLoginEmail}');
                         if (check == true) {
+                          var response =
+                              await Quantity.getDirectLogin(directLoginEmail);
+                          int count = response['count'];
+                          var shopItems = response['shopItems'];
+                          String id = response['ids'].toString();
+                          Provider.of<CartModel>(context, listen: false)
+                              .updateCount(id, count, shopItems);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
