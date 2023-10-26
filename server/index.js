@@ -11,22 +11,9 @@ app.use(express.urlencoded({extended: true}));
 
 const cors = require("cors");
 app.use(cors());
-const DB = 'mongodb+srv://abhinav:giri@cluster1.f5hitoc.mongodb.net/flutter'
+
 // mongodb+srv://abhinav:<password>@cluster1.f5hitoc.mongodb.net/?retryWrites=true&w=majority
 const signupData = [];
-
-
-// app.get('/api/get_signup',(req,res)=>{
-//     const pdata = {
-//         "email":  req.body.email,
-//         "passsword": req.body.password,
-        
-//     };
-//     res.status(200).send({
-//         "status_code" : 200,
-//         "message": "Successfuly Fetched Data"}
-// )
-// });
 
 // 'useUnifiedTopology' : true
 // mongoose.set('strictQuery',true);
