@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/services/quantity.dart';
 import 'package:grocery_app/snackbar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
 class CartModel extends ChangeNotifier {
@@ -19,7 +20,7 @@ class CartModel extends ChangeNotifier {
   get shopItems => _shopItems;
   var dataId;
 
-  void addItemToCart(int index) {
+  void addItemToCart(int index) async {
     count += 1;
     // Quantity.postCount(count, id);
 
@@ -28,6 +29,8 @@ class CartModel extends ChangeNotifier {
         _cartItems[i][4] +=
             1; // Increment the quantity if the same item is found
         isPresent = true;
+        // var sp = await SharedPreferences.getInstance();
+        // sp.setBool('login', true);
         break;
       }
     }

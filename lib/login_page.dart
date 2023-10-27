@@ -144,6 +144,7 @@ class LoginPage extends StatelessWidget {
 
                               //setting email for API in caseof credential less logins
                               sp.setString('userEmail', _emailController.text);
+                              sp.setString('userIds', id);
 
                               if (checkLogins) {
                                 Navigator.pushReplacement(

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -99,10 +100,22 @@ class WelcomePage extends StatelessWidget {
                       onPressed: () async {
                         var sp = await SharedPreferences.getInstance();
                         var check = await sp.getBool('login');
+                        final String outCount =
+                            await sp.getInt('updatedCount').toString();
+                        final String userId =
+                            await sp.getString('userIds').toString();
                         var directLoginEmail =
                             await sp.getString('userEmail').toString();
                         debugPrint('emailllllll${directLoginEmail}');
+
+                        String storedJson =
+                            sp.getString('myCartList').toString();
+                        // if (storedJson != null) {
+                        List<dynamic> newList = jsonDecode(storedJson);
+                        // }
+
                         if (check == true) {
+                          await Quantity.postCount(outCount, userId, newList);
                           var response =
                               await Quantity.getDirectLogin(directLoginEmail);
                           int count = response['count'];

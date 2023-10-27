@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -186,17 +188,54 @@ class MainPage extends StatelessWidget {
                           itemPrice: value.shopItems[index][1],
                           imagePath: value.shopItems[index][2],
                           color: value.shopItems[index][3],
-                          onPressedAdd: () =>
-                              Provider.of<CartModel>(context, listen: false)
-                                  .addItemToCart(index),
-                          // .addItemToCart(index, id),
-                          // value.shopItems[index][4] += 1,
+                          onPressedAdd: () async {
+                            //calling method from cart_model through Provider
+                            Provider.of<CartModel>(context, listen: false)
+                                .addItemToCart(index);
 
-                          onPressedRemove: () =>
-                              Provider.of<CartModel>(context, listen: false)
-                                  .deleteItemFromCart(index, context),
-                          // value.shopItems[index][4] -= 1,
+                            //setting shared preference value of cart items while adding items
+                            var arr = await Provider.of<CartModel>(context,
+                                    listen: false)
+                                .cartItems;
+                            List<dynamic> newList = await arr.map((item) {
+                              return [item[0], item[item.length - 1]];
+                            }).toList();
+                            String encodedList = jsonEncode(newList);
+                            final prefs = await SharedPreferences.getInstance();
+                            //set preference cart value
+                            await prefs.setString('myCartList', encodedList);
 
+                            //set preference count value
+                            prefs.setInt(
+                                'updatedCount',
+                                Provider.of<CartModel>(context, listen: false)
+                                    .count);
+                          },
+
+                          //setting shared preference value of cart items while removing items
+                          onPressedRemove: () async {
+                            //calling method from cart_model through Provider
+                            Provider.of<CartModel>(context, listen: false)
+                                .deleteItemFromCart(index, context);
+                            var arr = await Provider.of<CartModel>(context,
+                                    listen: false)
+                                .cartItems;
+                            List<dynamic> newList = await arr.map((item) {
+                              return [item[0], item[item.length - 1]];
+                            }).toList();
+                            String encodedList = jsonEncode(newList);
+                            final prefs = await SharedPreferences.getInstance();
+
+                            //set preference cart value
+                            await prefs.setString('myCartList', encodedList);
+
+                            //set preference count value
+                            prefs.setInt(
+                                'updatedCount',
+                                Provider.of<CartModel>(context, listen: false)
+                                    .count);
+                          },
+                          //quantity of items
                           quantity: value.shopItems[index][4].toString(),
                         ),
                       );
