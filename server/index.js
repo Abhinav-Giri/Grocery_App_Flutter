@@ -11,7 +11,7 @@ app.use(express.urlencoded({extended: true}));
 
 const cors = require("cors");
 app.use(cors());
-
+const DB = 'mongodb+srv://abhinav:giri@cluster1.f5hitoc.mongodb.net/flutter';
 // mongodb+srv://abhinav:<password>@cluster1.f5hitoc.mongodb.net/?retryWrites=true&w=majority
 const signupData = [];
 
