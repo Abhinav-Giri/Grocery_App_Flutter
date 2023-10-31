@@ -60,7 +60,7 @@ class CartModel extends ChangeNotifier {
     dataId = id;
     if (updatedCount > 0) {
       count = updatedCount;
-      for (int i = 0; i < updatedShopItems.length; i++) {
+      for (int i = 0; i < _shopItems.length; i++) {
         for (int j = 0; j < updatedShopItems.length; j++) {
           if (_shopItems[i][0] == updatedShopItems[j][0]) {
             _shopItems[i][4] = (updatedShopItems[j][1]);
@@ -69,6 +69,7 @@ class CartModel extends ChangeNotifier {
         }
       }
     }
+    // notifyListeners();
   }
 
   void deleteItemFromCart(int index, context) {
