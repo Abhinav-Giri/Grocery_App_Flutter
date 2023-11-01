@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:grocery_app/login_page.dart';
 import 'package:grocery_app/models/cart_model.dart';
 import 'package:grocery_app/myShop.dart';
+import 'package:grocery_app/services/api.dart';
 import 'package:grocery_app/services/quantity.dart';
 import 'package:grocery_app/signup_page.dart';
 import 'package:provider/provider.dart';
@@ -118,8 +119,8 @@ class WelcomePage extends StatelessWidget {
                                 await sp.getString('userEmail').toString();
                             debugPrint('emailllllll${directLoginEmail}');
                             debugPrint('emailllllll${newList}');
-                            var response =
-                                await Quantity.getDirectLogin(directLoginEmail);
+                            var response = await Api.getcredentials(
+                                directLoginEmail, true);
                             int count = response['count'];
                             var shopItems = response['shopItems'];
                             debugPrint('sssssssssssssss${shopItems}');
