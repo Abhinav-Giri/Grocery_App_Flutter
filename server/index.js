@@ -18,7 +18,7 @@ const cors = require("cors");
 app.use(cors());
 
 // MongoDB connection string
-const DB = process.env.MONGODB_URI;
+const DB =  'mongodb+srv://abhinav:giri@cluster1.f5hitoc.mongodb.net/flutter';
 
 // An empty array for storing signup data (not recommended as it's not being used)
 const signupData = [];
